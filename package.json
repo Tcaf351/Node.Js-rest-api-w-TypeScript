@@ -1,0 +1,27 @@
+{
+  "name": "node.js-rest-api-w-typescript",
+  "version": "1.0.0",
+  "description": "Node.Js restAPI with express.js and typescript",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tcaf351/Node.Js-rest-api-w-TypeScript.git"
+  },
+  "author": "Timothy Cafarella",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tcaf351/Node.Js-rest-api-w-TypeScript/issues"
+  },
+  "homepage": "https://github.com/Tcaf351/Node.Js-rest-api-w-TypeScript#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "helmet": "^5.0.2",
+    "joi": "^17.6.0",
+    "mongoose": "^6.3.3"
+  }
+}

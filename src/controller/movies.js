@@ -7,6 +7,11 @@ module.exports = {
     },
 
     async getMovieById(req, res) {
+        const movie = await Movie.findById(req.params.id)
+        res.send(movie);
+    },
+
+    async getMovieById(req, res) {
         try {
             const movieID = await Movie.findById(req.params.id);
             res.send(movieID);
@@ -32,6 +37,21 @@ module.exports = {
         }
     },
 
+    async putMovie(req, res) {
+        try {
+            const { error } = validateMovie(req.body)
+            if (error) return res.status(400).send(error);
+
+            let movie = await Movie.findByIdAndUpdate(req.params.id, 
+                { title: req.body.title },
+                { new: true });
+            movie = await movie.save();
+            res.send(movie);
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
 
     async deleteMovie(req, res) {
         try {

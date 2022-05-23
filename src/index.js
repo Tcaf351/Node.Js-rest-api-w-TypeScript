@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
+require('dotenv/config');
 
 const app = express(); // initialize express
 
@@ -13,19 +14,22 @@ app.use(cors());
 app.use(helmet());
 
 
-// catch any errors when connecting to MongoDB
-main().catch(err => console.log(err))
+main().catch(err => console.log(err)) // catch any errors when connecting to MongoDB
 async function main() {
     // connect to MongoDB
-    await mongoose.connect('mongodb://localhost:27017/Assignment2-Database');
+    await mongoose.connect(process.env.DATABASE_CONNECTION);
     console.log('connected to MongoDB');
 }
 
 
 // routes
-const routes = require('./routes/routes'); // bring in routes (src/routes/routes.js)
-app.use('/api', routes.routerGet); // get method
-app.use('/api', routes.routerPost); // post method
+const movies = require('./routes/movies'); // bring in routes (src/routes/routes.js)
+app.use('/api/movies', movies); // get method
+
+
+
+// config routes
+
 
 
 // listen to the port

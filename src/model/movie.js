@@ -12,7 +12,7 @@ const movieSchema = new mongoose.Schema({
     
 });
 
-const Movie = mongoose.model('Movie', movieSchema);
+const Movie = mongoose.model("Movie", movieSchema);
 
 const validateMovie = (movie) => {
     const schema = Joi.object({
@@ -23,5 +23,5 @@ const validateMovie = (movie) => {
 
 
 module.exports.movieSchema = movieSchema; // line 5
-module.exports.MovieSchema = Movie; // line 15
+module.exports.Movie = Movie; // line 15
 module.exports.validateMovie = validateMovie; // line 17

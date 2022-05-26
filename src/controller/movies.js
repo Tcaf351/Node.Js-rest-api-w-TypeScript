@@ -31,7 +31,6 @@ module.exports = {
                 title: req.body.title,
                 genre: req.body.genre,
                 rating: req.body.rating,
-                image: req.body.rating
             });
     
             movie = await movie.save();
@@ -52,7 +51,6 @@ module.exports = {
                     title: req.body.title,
                     genre: req.body.genre,
                     rating: req.body.rating,
-                    image: req.body.image 
                 },
                 { new: true });
             movie = await movie.save();
@@ -65,14 +63,14 @@ module.exports = {
 
     async deleteMovie(req, res) {
         try {
-            const movie = await Movie.findOneAndDelete(req.params.id) 
-            res.send(movie);
-
-            if (!movie) return res.status(404).send('No records matching your request exist')
-    
-
-        } catch (error) {
-            console.log(error);
+            const movie = await Movie.findByIdAndRemove(req.params.id)
+            if (!movie) {
+                return res.status(404)
+                    .send("The movie with the given ID was not found!")
+            }
+            res.status(200).send(`Deleted: ${movie}`)
+        } catch (err) {
+            console.log(err)
         }
-    }
+    },
 }

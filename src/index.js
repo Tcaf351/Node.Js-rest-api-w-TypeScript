@@ -23,8 +23,8 @@ async function main() {
 
 
 // routes
-const movies = require('./routes/movies'); // bring in routes (src/routes/routes.js)
-app.use('/api/movies', movies); // get method
+app.use('/api/movies', require('./routes/movies')); // bring in routes (src/routes/routes.js)
+app.use('/api/users', require('./routes/userRoutes')); // get method
 
 
 

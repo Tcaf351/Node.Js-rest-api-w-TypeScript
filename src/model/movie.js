@@ -3,6 +3,11 @@ const Joi = require('joi');
 
 // Schema
 const movieSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     title: {
         type: String,
         required: true,
@@ -18,10 +23,6 @@ const movieSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true,
-    },
-    image: {
-        type: String,
-        required: true,
     }
 });
 
@@ -32,7 +33,6 @@ const validateMovie = (movie) => {
         title: Joi.string().min(3).max(40).required(),
         genre: Joi.string().min(3).max(10).required(),
         rating: Joi.number().required(),
-        image: Joi.string().required()
     })
     return schema.validate(movie)
 }

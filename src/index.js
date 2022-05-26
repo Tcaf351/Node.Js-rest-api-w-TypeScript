@@ -24,7 +24,7 @@ async function main() {
 
 // routes
 app.use('/api/movies', require('./routes/movies')); // bring in routes (src/routes/routes.js)
-app.use('/api/users', require('./routes/userRoutes')); // get method
+app.use('/api/users', require('./routes/userRoutes'));
 
 
 

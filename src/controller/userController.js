@@ -2,17 +2,19 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
 const { User, validateUser } = require('../model/userModel');
+const { validateAuth } = require('../auth/auth');
 
 const registerUser = asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body; // pulls these values from the form
 
-    let error = validateUser(req.body)
+    console.log(req.body);
+    let error = validateUser(req.body) // Validation for user to enter all fields as defined by schema with Joi validation.
     if (error.error) return res.status(400).send(error.error.details[0].message)
 
-    if (!userName || !email || !password) { // Validation for user to enter all fields
-        res.status(400)
-        throw new Error('Please add all fields')
-    }
+    // if (!userName || !email || !password) { // Validation for user to enter all fields
+    //     res.status(400)
+    //     throw new Error('Please add all fields')
+    // }
 
     // check if user exists
     const userExists = await User.findOne({ email }) // searching MongoDB for an existing email
@@ -36,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
     if (user) { // if creating new user was successful send a 201 with their entered data minus password
         res.status(201).json({
             _id: user.id,
-            userName: user.name,
+            userName: user.userName,
             email: user.email
         }) 
     } else {
@@ -47,13 +49,34 @@ const registerUser = asyncHandler(async (req, res) => {
     res.json({ message: 'Register User' })
 })
 
+
 const loginUser = asyncHandler(async (req, res) => {
-    res.json({ message: 'Login User' })
+    const { email, password } = req.body; // we get this from the form as the user logs in
+
+    const { error } = validateAuth(req.body); // validates what they entered through the Joi schema in auth/auth.js
+    if (error) return res.status(400).send(error.details[0].message);
+
+    // check for existing user email
+    const user = await User.findOne({ email })
+
+    // check if the hashed password is the same as the password passed in the form by the user
+    if (user && (await bcrypt.compare(password, user.password))) {
+        res.json({
+            _id: user.id,
+            userName: user.userName,
+            email: user.email
+        })
+    } else {
+        res.status(400)
+        throw new Error('Invalid credentials');
+    }
 })
+
 
 const getMe = asyncHandler(async (req, res) => {
     res.json({ message: 'User data display' })
 })
+
 
 module.exports = {
     registerUser,

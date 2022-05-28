@@ -12,18 +12,6 @@ module.exports = {
         }
     },
 
-    // async getMovieById(req, res) {
-    //     try {
-    //         const movieID = await Movie.findById(req.params.id);
-    //         res.send(movieID);
-
-    //         if (!movieID) return res.status(404).send('No records match your request');
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // },
-
     async postMovie(req, res) {
         try {
             const { error } = validateMovie(req.body)
@@ -52,7 +40,6 @@ module.exports = {
                 res.status(401)
                 throw new Error('User not found');
             }
-
 
             const { error } = validateMovie(req.body)
             if (error) return res.status(400).send(error);
@@ -88,7 +75,6 @@ module.exports = {
                     .send("The movie with the given ID was not found!")
             }
 
-
             const user = await User.findById(req.user.id); // logged in users id
 
             // Check for user
@@ -104,15 +90,6 @@ module.exports = {
             }
 
             await movie.remove()
-
-            
-
-
-            // console.log(user);
-
-
-
-
 
             res.status(200).send(`Deleted: ${movie}`)
     

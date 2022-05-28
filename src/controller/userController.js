@@ -39,7 +39,8 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(201).json({
             _id: user.id,
             userName: user.userName,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id)
         }) 
     } else {
         res.status(400)
@@ -64,7 +65,8 @@ const loginUser = asyncHandler(async (req, res) => {
         res.json({
             _id: user.id,
             userName: user.userName,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id)
         })
     } else {
         res.status(400)
@@ -76,6 +78,14 @@ const loginUser = asyncHandler(async (req, res) => {
 const getMe = asyncHandler(async (req, res) => {
     res.json({ message: 'User data display' })
 })
+
+
+// Generate JWT token
+const generateToken = (id) => { // the id is the user id that we set as the payload.
+    return jwt.sign({ id }, process.env.JWT_SECRET, { // JWT is signing the payload (the data) that we pass in. id gets destructured from payload
+        expiresIn: '30d' // token expires in 30 days
+    }) 
+}
 
 
 module.exports = {

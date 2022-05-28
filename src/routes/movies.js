@@ -8,7 +8,9 @@ const moviesController = require('../controller/movies');
 // router.put('/:id', moviesController.putMovie);
 // router.delete('/:id', moviesController.deleteMovie);
 
-router.route('/').get(moviesController.getAllMovies).post(moviesController.postMovie);
-router.route('/:id').get(moviesController.getMovieById).put(moviesController.putMovie).delete(moviesController.deleteMovie);
+const { protect } = require('../middleware/authMiddleware');
+
+router.route('/').get(protect, moviesController.getAllMovies).post(protect, moviesController.postMovie);
+router.route('/:id').put(protect, moviesController.putMovie).delete(protect, moviesController.deleteMovie);
 
 module.exports = router;
